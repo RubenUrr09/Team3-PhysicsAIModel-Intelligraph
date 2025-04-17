@@ -24,12 +24,13 @@ Click on the hamburger button + Terminal + New Terminal:
 > cd project
 > npm install 
 
-//this will install all the modules from the json files
+This should install all the modules from the json files
 
-//Make sure you stay in the project directory
-//These are modules that you need have installed for this project manually because they are not 
+Make sure you stay in the project directory
+These are modules that you need have installed for this project manually because they are not 
 in the json files
 
+Finally, install:
 > npm install cors
 
 
@@ -47,11 +48,12 @@ in the json files
 ### Using the OpenAI API Key for it to answer the questions, analyze the files ###
 **ONLY DO THIS STEP IF** npm run dev is runnning correctly (You can clearly see the website with no issues)
 
-create a file 'config.js' in the project directory (in the same directory as server.js, not in src)
+Create a file 'config.js' in the project directory (in the same directory as server.js, not in src)
 
-How 'config.js' should look like: (Simple)
+How 'config.js' should look like (Simple):
 
-export const OPENAI_API_KEY = sk-etc (Your API KEY)
+> config.js
+export const OPENAI_API_KEY = sk-etc //(Your API KEY)
 
 **VERY IMPORTANT NOTE: DON"T SHARE YOUR API KEY WITH ANYONE, SO **DO NOT UPLOAD/COMMIT 'config.js' TO GITHUB** (You can only upload it if you ERASE your API Key from there) **
 If you keep the config.js to yourself when you're working on the project, it is guaranteed to be safe (DON'T UPLOAD YOUR API KEY ANYWHERE)
