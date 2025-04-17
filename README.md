@@ -20,9 +20,9 @@ Do all the steps IN ORDER if you want run the model:
 ### Loading the modules for the program and VSCode: ####
 
 Click on the hamburger button + Terminal + New Terminal:
-(Type whatever is to the right of >, which represents each different command in the terminal you need)
-> cd project
-> npm install 
+(Type whatever is to the right of >>, which represents each different command in the terminal you need)
+>> cd project
+>> npm install 
 
 This should install all the modules from the json files
 
