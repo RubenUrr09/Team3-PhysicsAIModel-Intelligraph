@@ -39,6 +39,7 @@ Finally, install:
 ### Running the program (to see how the website looks like): ####
 
 > cd project
+
 > npm run dev 
 
 (CLick on the link it tells you to go to)
@@ -54,6 +55,7 @@ Create a file 'config.js' in the project directory (in the same directory as ser
 How 'config.js' should look like (Simple):
 
 > config.js
+
 export const OPENAI_API_KEY = sk-etc //(Your API KEY)
 
 **VERY IMPORTANT NOTE: DON"T SHARE YOUR API KEY WITH ANYONE, SO **DO NOT UPLOAD/COMMIT 'config.js' TO GITHUB** (You can only upload it if you ERASE your API Key from there) **
