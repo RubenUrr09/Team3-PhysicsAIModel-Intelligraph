@@ -18,7 +18,20 @@ The model is composed of the following:
 Do all the steps IN ORDER if you want run the model:
 
 ### Loading the modules for the program and VSCode: ####
+In Github:
+On the <Code> Section for this project, copy and paste the HTTPS code
 
+In your Terminal:
+Open WSL (Recommended) or any other terminal to open the code into your VS Code by doing the following:
+>git clone *INSERT HTTPS*
+
+>cd Team3-PhysicsAIModel-Intelligraph
+
+>code .
+This should open the github project repository into your VS Code
+
+
+In VS Code:
 Click on the hamburger button + Terminal + New Terminal:
 (Type whatever is to the right of >, which represents each different command in the terminal you need)
 > cd project
