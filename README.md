@@ -19,7 +19,7 @@ Do all the steps IN ORDER if you want run the model:
 
 ### Loading the modules for the program and VSCode: ####
 In Github:
-On the <Code> Section for this project, copy and paste the HTTPS code
+On the Code Section button for this project, copy and paste the HTTPS code
 
 ### In your Terminal: ###
 Open WSL (Recommended) or any other terminal to open the code into your VS Code by doing the following:
@@ -82,7 +82,7 @@ How 'config.js' should look like (Simple):
 
 > config.js
 
-export const OPENAI_API_KEY = sk-etc //(Your API KEY)
+<code> export const OPENAI_API_KEY = sk-etc //(Your API KEY) <code>
 
 **VERY IMPORTANT NOTE: DON"T SHARE YOUR API KEY WITH ANYONE, SO **DO NOT UPLOAD/COMMIT 'config.js' TO GITHUB** (You can only upload it if you ERASE your API Key from there) **
 If you keep the config.js to yourself when you're working on the project, it is guaranteed to be safe (DON'T UPLOAD YOUR API KEY ANYWHERE)
