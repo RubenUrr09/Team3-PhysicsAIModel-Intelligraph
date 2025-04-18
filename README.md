@@ -1,5 +1,5 @@
 # Team3-PhysicsAIModel-Intelligraph
-This AgenticAI model helps students retain major physics concepts, as well as answering questions that they need help on. The model provides students with an idea of the kind of thinking they should have when looking at a physics problem. This physics machine learning model can be very helpful for students that are aiming to ETAM into their desired major as well, it is very well defined for introductory physics courses such as Phys206 and Phys207.
+This AgenticAI-powered model helps students retain key physics concepts and receive support with challenging concepts. The model provides students with an idea of the kind of thinking they should have when dealing with a physics problem. This physics machine learning model can be very valuable for students that are aiming to ETAM into their desired major, as well as physics majors and minors, since it is very well defined for introductory physics courses such as Phys206 and Phys207.
 
 ## Benchmarks to test the AI model are:
 Past common exams from Phys206/207
