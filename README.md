@@ -66,8 +66,10 @@ Finally, install:
 > cd project
 
 > npm run dev 
-
-(CLick on the link it tells you to go to)
+if it says 'Permission denied' type:
+> chmod +x node_modules/.bin/vite
+Then type npm run dev again
+(Click on the link it tells you to go to)
 
 
 
