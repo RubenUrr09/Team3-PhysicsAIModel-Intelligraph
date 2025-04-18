@@ -21,17 +21,30 @@ Do all the steps IN ORDER if you want run the model:
 In Github:
 On the <Code> Section for this project, copy and paste the HTTPS code
 
-In your Terminal:
+### In your Terminal: ###
 Open WSL (Recommended) or any other terminal to open the code into your VS Code by doing the following:
 >git clone *INSERT HTTPS*
 
+It will ask you for username and password:
+**Note**: **Password DOES NOT refer to your Github password**
+To be able to access your password to git clone in private repositories:
+1. Go to the settings of your personal github profile
+2. Click on <> Developer Settings (All the way down)
+3. Create your personal token (YOUR PASSWORD)
+4. Checkmark the following so you can commit changes into the repository:
+   a. repo (As long as you checkmark repo you should be able to do the commits, pull requests)
+
+Now that you have your password, you can copy and paste it (Save it in your notes so you do not lose the API Key/Password, if you lose it you're free to create another one at no cost)
+After putting your password, the github project should already be cloned into your local device, so now you can access using the cd keyword
+
 >cd Team3-PhysicsAIModel-Intelligraph
 
+Then, to open the following project in VS Code:
 >code .
-This should open the github project repository into your VS Code
 
 
-In VS Code:
+
+### In VS Code: ###
 Click on the hamburger button + Terminal + New Terminal:
 (Type whatever is to the right of >, which represents each different command in the terminal you need)
 > cd project
