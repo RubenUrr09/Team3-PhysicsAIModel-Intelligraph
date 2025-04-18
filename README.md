@@ -82,7 +82,7 @@ How 'config.js' should look like (Simple):
 
 > config.js
 
-<code> export const OPENAI_API_KEY = sk-etc //(Your API KEY) <code>
+<code> export const OPENAI_API_KEY = sk-etc //(Your API KEY) </code>
 
 **VERY IMPORTANT NOTE: DON"T SHARE YOUR API KEY WITH ANYONE, SO **DO NOT UPLOAD/COMMIT 'config.js' TO GITHUB** (You can only upload it if you ERASE your API Key from there) **
 If you keep the config.js to yourself when you're working on the project, it is guaranteed to be safe (DON'T UPLOAD YOUR API KEY ANYWHERE)
