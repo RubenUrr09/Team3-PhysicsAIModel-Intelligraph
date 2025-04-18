@@ -41,7 +41,7 @@ app.post('/predict', async (req, res) => {
     }
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -62,8 +62,9 @@ You are an expert physics tutor designed to assist high school and college stude
 3. **Always plug in the given numbers and calculate final numerical values with proper units**.
 4. Show all mathematical work and algebraic manipulations, **rounding every operation to 3 decimal places**.
 5. Use **LaTeX formatting** for all equations and mathematical expressions:
-   - Inline math: \\( ... \\)
-   - Block math: \\[ ... \\]
+   - Do NOT USE the asteriks like ** text ** anywhere.
+   - Inline math: \\( ... \\).
+   - Block math: \\[ ... \\].
 6. Explain the physics reasoning behind each step and how it connects to the broader principles.
 7. Use **proper vector notation** where applicable and apply appropriate units throughout the solution.
 
