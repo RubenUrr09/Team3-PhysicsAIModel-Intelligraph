@@ -93,3 +93,13 @@ Open a New terminal (You should have two terminals open now -> the one where you
 > node server.js
 
 This should enable OPENAI to answer the questions or analyze the files you input into the website
+
+## Changing code and uploading on GitHub using VS code
+Go to:
+> Source Control
+
+1. Click on the ... in the Changes slidebar and select 'Pull'
+2. Type any message to indicate you committed (Yes, this is required)
+3. Click on the side of the Commit button and select 'Commit and Push'
+
+Same steps can be done with git pull, git add ., git commit, git push project origin, etc
