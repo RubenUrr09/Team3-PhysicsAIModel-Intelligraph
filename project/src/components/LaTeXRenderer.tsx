@@ -1,36 +1,26 @@
-// Fixed LaTeXRenderer.tsx
 import React, { useEffect, useRef } from 'react';
 
 interface LaTeXRendererProps {
   text: string;
+  renderKey?: number; // Add a key prop to force re-renders
 }
 
-const LaTeXRenderer: React.FC<LaTeXRendererProps> = ({ text }) => {
+const LaTeXRenderer: React.FC<LaTeXRendererProps> = ({ text, renderKey }) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Function to handle MathJax initialization and rendering
-    const loadAndRenderMathJax = async () => {
+    // Clear any previous MathJax rendering in this element
+    if (contentRef.current && window.MathJax && window.MathJax.typesetClear) {
+      window.MathJax.typesetClear([contentRef.current]);
+    }
+
+    // Function to handle MathJax rendering
+    const renderMathJax = async () => {
       if (!text || !contentRef.current) return;
       
-      // Check if MathJax is available
       if (typeof window !== 'undefined' && window.MathJax) {
         try {
-          // Configure MathJax for each render - important for subsequent renders
-          window.MathJax = {
-            tex: {
-              inlineMath: [['\(', '\)']],
-              displayMath: [['\[', '\]']]
-            },
-            svg: {
-              fontCache: 'global'
-            },
-            startup: {
-              typeset: false
-            }
-          };
-          
-          // Force reset MathJax's internal state
+          // Force reset MathJax's internal state for this element
           if (window.MathJax.typesetClear) {
             window.MathJax.typesetClear([contentRef.current]);
           }
@@ -41,50 +31,58 @@ const LaTeXRenderer: React.FC<LaTeXRendererProps> = ({ text }) => {
           console.error('MathJax rendering error:', error);
         }
       } else {
-        // Load MathJax if it's not available
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js';
-        script.async = true;
+        console.log('Loading MathJax script...');
+        // If MathJax isn't loaded, load it
+        await loadMathJaxScript();
         
-        script.onload = async () => {
-          // Configure MathJax
-          window.MathJax = {
-            tex: {
-              inlineMath: [['\(', '\)']],
-              displayMath: [['\[', '\]']]
-            },
-            svg: {
-              fontCache: 'global'
-            },
-            startup: {
-              typeset: false
-            }
-          };
-          
-          // Wait for MathJax to initialize
-          await new Promise(resolve => setTimeout(resolve, 100));
-          
-          // Process the current element
-          try {
-            await window.MathJax.typesetPromise([contentRef.current]);
-          } catch (error) {
-            console.error('MathJax rendering error:', error);
+        // Configure MathJax
+        window.MathJax = {
+          tex: {
+            inlineMath: [['\(', '\)']],
+            displayMath: [['\[', '\]']]
+          },
+          svg: {
+            fontCache: 'global'
+          },
+          startup: {
+            typeset: false
           }
         };
         
-        document.head.appendChild(script);
+        // Wait a bit for MathJax to initialize
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        // Try to render
+        try {
+          if (contentRef.current) {
+            await window.MathJax.typesetPromise([contentRef.current]);
+          }
+        } catch (error) {
+          console.error('MathJax initialization error:', error);
+        }
       }
     };
 
-    // Ensure the DOM is ready before attempting to render
+    // Load MathJax script
+    const loadMathJaxScript = (): Promise<void> => {
+      return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js';
+        script.async = true;
+        script.onload = () => resolve();
+        document.head.appendChild(script);
+      });
+    };
+
+    // Set a slight delay to ensure the DOM is ready
     const timeoutId = setTimeout(() => {
-      loadAndRenderMathJax();
-    }, 50);
+      renderMathJax();
+    }, 100);
     
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [text]); // Re-trigger when text changes
+  }, [text, renderKey]); // Re-trigger when text or renderKey changes
 
   // Process bold text using ** syntax
   const processBoldText = (text: string): JSX.Element[] => {

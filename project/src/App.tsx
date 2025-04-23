@@ -41,7 +41,7 @@ function App() {
           <div className="flex items-center space-x-2 mb-8">
             <GraduationCap className="h-8 w-8 text-blue-600" />
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
-              PhysicsAI Pro
+              PhysicsGPT Pro
             </h1>
           </div>
           
@@ -122,11 +122,11 @@ function App() {
           {/* Footer */}
           <footer className="bg-white border-t border-gray-100 px-8 py-3">
             <div className="flex justify-between items-center text-xs text-gray-500">
-              <div>PhysicsAI Pro • Student Edition v2.0</div>
+              <div>PhysicsGPT Pro • Student Edition v2.0</div>
               <div className="flex space-x-4">
                 <span>Documentation</span>
                 <span>Support</span>
-                <span>© 2025 PhysicsAI</span>
+                <span>© 2025 PhysicsGPT</span>
               </div>
             </div>
           </footer>

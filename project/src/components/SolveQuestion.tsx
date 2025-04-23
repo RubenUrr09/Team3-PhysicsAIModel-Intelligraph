@@ -1,5 +1,3 @@
-
-// Updated SolveQuestion.tsx
 import React, { useState, useCallback, useEffect } from 'react';
 import { AlertCircle, Check, Loader2, RefreshCw } from 'lucide-react';
 import axios from 'axios';
@@ -19,8 +17,37 @@ function SolveQuestion() {
   const [forces, setForces] = useState<Force[]>([]);
   const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'loading'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
-  // Add a unique key for both components to ensure proper re-rendering
   const [renderKey, setRenderKey] = useState<number>(0);
+
+  // Ensure MathJax is loaded on component mount
+  useEffect(() => {
+    const loadMathJax = () => {
+      if (window.MathJax) return;
+      
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js';
+      script.async = true;
+      document.head.appendChild(script);
+    };
+    
+    loadMathJax();
+  }, []);
+
+  // Add sample forces for testing
+  const sampleForces: Force[] = [
+    {
+      magnitude: 10,
+      angle: 30,
+      color: "#FF0000",
+      label: "Applied Force"
+    },
+    {
+      magnitude: 5,
+      angle: 270,
+      color: "#000000",
+      label: "Weight"
+    }
+  ];
 
   const handleSubmit = useCallback(async () => {
     if (!question.trim()) {
@@ -33,19 +60,44 @@ function SolveQuestion() {
     setForces([]);
     
     try {
-      // Using the correct endpoint to match server.js
       const { data } = await axios.post('http://localhost:5000/predict', { question });
+      console.log("API response data:", data);
       
       if (data.success) {
-        // Important: Force a re-render by updating the key BEFORE setting the answer content
+        // Generate a new render key to force re-render of components
         setRenderKey(prevKey => prevKey + 1);
         
-        // Wait a tick before updating content to ensure clean re-render
-        setTimeout(() => {
-          setAnswer(data.answer);
-          setForces(Array.isArray(data.forces) ? data.forces : []);
-          setStatus('success');
-        }, 10);
+        // Set the explanation
+        setAnswer(data.answer);
+        
+        // Process forces array
+        if (data.forces && Array.isArray(data.forces)) {
+          console.log("Forces data received:", data.forces);
+          
+          // Make sure each force has the required properties
+          const validForces = data.forces.filter((force: any) => 
+            force && 
+            typeof force.magnitude === 'number' && 
+            typeof force.angle === 'number' && 
+            typeof force.color === 'string' && 
+            typeof force.label === 'string'
+          );
+          
+          if (validForces.length > 0) {
+            console.log("Valid forces data:", validForces);
+            setForces(validForces);
+          } else {
+            console.warn("No valid forces found in data");
+            // For testing, you can use sample forces
+            // setForces(sampleForces);
+            setForces([]);
+          }
+        } else {
+          console.error('Invalid forces data:', data.forces);
+          setForces([]);
+        }
+        
+        setStatus('success');
       } else {
         throw new Error(data.message || 'Unknown error');
       }
@@ -65,10 +117,11 @@ function SolveQuestion() {
     setForces([]);
     setStatus('idle');
     setStatusMessage('');
+    // Increment render key to ensure fresh rendering
     setRenderKey(prevKey => prevKey + 1);
   }
 
-  // Debugging helper
+  // Force re-render of LaTeX content and canvas
   const handleForceRefresh = () => {
     setRenderKey(prevKey => prevKey + 1);
   }
@@ -136,19 +189,26 @@ function SolveQuestion() {
               {status === 'success' && <Check className="w-5 h-5 text-green-500 mr-2" />}
               <h3 className="text-xl font-semibold">Solution:</h3>
             </div>
-            {/* Key is crucial for proper re-rendering */}
-            <LaTeXRenderer key={`latex-${renderKey}`} text={answer} />
+            {/* Pass renderKey to LaTeXRenderer to force re-rendering */}
+            <LaTeXRenderer key={`latex-${renderKey}`} text={answer} renderKey={renderKey} />
           </div>
         </div>
       )}
 
-      {Array.isArray(forces) && forces.length > 0 && (
+      {forces.length > 0 && (
         <div className="mt-6 bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-semibold mb-4">Force Diagram:</h3>
           <div className="flex justify-center">
-            {/* Key is crucial for proper re-rendering */}
             <ForceCanvas key={`canvas-${renderKey}`} forces={forces} width={500} height={500} />
           </div>
+        </div>
+      )}
+      
+      {/* Debug section */}
+      {status === 'success' && forces.length === 0 && (
+        <div className="mt-6 p-4 bg-yellow-50 text-yellow-700 rounded-lg">
+          <p className="font-medium">No force data available for this problem</p>
+          <p className="text-sm mt-1">The solver couldn't extract force information for visualization.</p>
         </div>
       )}
     </div>
