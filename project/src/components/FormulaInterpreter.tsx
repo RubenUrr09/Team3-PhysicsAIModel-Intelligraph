@@ -340,7 +340,7 @@ function FormulaInterpreter() {
               <h3 className="text-lg font-semibold mb-4 text-blue-700">Formula {index + 1}</h3>
               <div className="mb-4">
                 <div className="text-lg font-mono bg-gray-50 p-4 rounded">
-                  <LaTeXRenderer text={formula.equation} renderKey={renderKey} />
+                    <LaTeXRenderer key={`latex-${index}`} text={formula.equation} />
                 </div>
               </div>
               <div className="mb-4">

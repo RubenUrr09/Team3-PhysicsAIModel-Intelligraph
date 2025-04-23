@@ -4,6 +4,7 @@ import { Loader2, Upload, Search, X } from 'lucide-react';
 import axios from 'axios';
 import PhysicsMindmap from './PhysicsMindmap';
 
+
 interface MindmapNode {
   id: string;
   label: string;

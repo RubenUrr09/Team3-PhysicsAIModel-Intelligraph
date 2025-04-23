@@ -319,30 +319,50 @@ app.post('/interpret-formula-text', express.json(), async (req, res) => {
     
     // Process the text with OpenAI
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo-0125", // More stable for JSON output
+      model: "gpt-4o", // More stable for JSON output
       messages: [
         {
           role: "system",
-          content: `You are a physics formula interpreter. Extract formulas from the given text and return them in a JSON format.
-          
-Your response must be valid JSON with this exact structure:
-{
-  "formulas": [
-    {
-      "equation": "E = mc^2",
-      "variables": [
-        { "symbol": "E", "name": "Energy", "units": "J", "description": "Energy" },
-        { "symbol": "m", "name": "Mass", "units": "kg", "description": "Mass" },
-        { "symbol": "c", "name": "Speed of light", "units": "m/s", "description": "Speed of light constant" }
-      ],
-      "usage": "Relates energy and mass"
-    }
-  ]
-}
+          content: `You are a physics formula interpreter. Your task is to extract **all physics formulas** from the provided text and return them in a **strictly valid JSON** format.
 
-If the user provides a single formula like "F = ma", return the full interpretation with proper LaTeX syntax.
-If the user provides multiple formulas or a block of text, extract all recognizable physics formulas.
-If no valid physics formulas are found, return an empty formulas array.`
+          Your output must strictly follow this structure:
+          {
+            "formulas": [
+              {
+                "equation": "\\[ F = m \\cdot a \\]",
+                "variables": [
+                  {
+                    "symbol": "F",
+                    "name": "Force",
+                    "units": "N",
+                    "description": "Force acting on the object"
+                  },
+                  {
+                    "symbol": "m",
+                    "name": "Mass",
+                    "units": "kg",
+                    "description": "Mass of the object"
+                  },
+                  {
+                    "symbol": "a",
+                    "name": "Acceleration",
+                    "units": "m/s^2",
+                    "description": "Rate of change of velocity"
+                  }
+                ],
+                "usage": "Newton's Second Law, relating force, mass, and acceleration."
+              }
+            ]
+          }
+          
+          REQUIREMENTS:
+          - Wrap **every equation** in **block-level MathJax delimiters**: use **\\[ ... \\]**
+          - DO NOT include any text outside the JSON structure
+          - If the input text contains multiple formulas, include each in its own JSON object within the array
+          - If **no physics formulas** are found, return:
+            { "formulas": [] }
+          
+          Ensure the output is suitable for LaTeX rendering with MathJax and contains no extra commentary.`
         },
         {
           role: "user",
@@ -483,12 +503,15 @@ app.post('/interpret-formulas', upload.single('file'), async (req, res) => {
 IMPORTANT REQUIREMENTS:
 1. Scan the ENTIRE text from top to bottom - don't stop after the first few formulas.
 2. Return ALL formulas you can identify, not just the most common ones.
-3. Format LaTeX equations correctly with proper syntax.
+3. Use **LaTeX formatting** for all equations and mathematical expressions:
+   - Do NOT USE the asterisks like ** text ** anywhere.
+   - Inline math: \\( ... \\).
+   - Block math: \\[ ... \\].
 4. Identify all variables used in each formula.
 
 Each formula object in the array must have this structure:
 {
-  "equation": "F = m \\cdot a",
+  "equation": "\\[F = m \\cdot a\\]",
   "variables": [
     { "symbol": "F", "name": "Force", "units": "N", "description": "Net force" },
     { "symbol": "m", "name": "Mass", "units": "kg", "description": "Mass of object" },
